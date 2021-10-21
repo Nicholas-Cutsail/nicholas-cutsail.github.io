@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/ico" href="assets/images/icon.ico" />
+
+    <title>About Me | Nick Cutsail</title>
+
+    <link rel="stylesheet" href="assets/css/base.css">
+
+    <script>
+        function toggle_header(){
+            var header_flexbox = document.getElementsByClassName("header_flexbox")[0];
+            var children = header_flexbox.children;
+            for(var i = 1; i < children.length; i++)
+            {
+                children[i].classList.toggle("hidden");
+            }
+            console.log(children);
+        }
+    </script>
+    
+<link rel="stylesheet" href="assets/css/me.css">
+
+</head>
+
+<body>
+    <header>
+        <ul class="header_flexbox">
+            <li class="header_item site_logo">
+                <a href="./home.html"><img src="assets/images/me.png" alt="Face" />
+                    <p>Nick Cutsail</p>
+                </a>
+                <div class="header_btn_container"><button onclick="toggle_header()">&#x2630;</button></div>
+            </li>
+            
+            <li class=" header_item hidden"><a href="/home.html">
+                    <p>Home</p>
+                </a></li>
+            
+            <li class=" header_item hidden"><a href="/cv.html">
+                    <p>Resume/CV</p>
+                </a></li>
+            
+            <li class="current_page header_item hidden"><a href="/me.html">
+                    <p>About Me</p>
+                </a></li>
+            
+            <li class=" header_item hidden"><a href="/book.html">
+                    <p>Bookshelf</p>
+                </a></li>
+            
+            <li style="flex-grow:2;flex-shrink:0;"></li>
+        </ul>
+    </header>
+    <main>
+<h2>About Me</h2>
+<div class="container">
+    <div class="image">
+        <img src="assets/images/me.png" alt="">
+    </div>
+    <div class="desc">
+        <p>
+            I am currently a freshman studying physics and mathematics at UC Berkeley.
+        </p>
+    </div>
+</div>
+
+<h2>Contact Me</h2>
+<p>Email me at: <span style="font-style:italic;">nicholascutsail [at] gmail [dot] com</span></p>
+<p>Linkedin: <a href="https://linkedin.com/in/nicholas-cutsail"
+        target="_blank">https://linkedin.com/in/nicholas-cutsail</a></p>
+
+    </main>
+    <footer>
+        <p>&copy; Nicholas Cutsail</p>
+    </footer>
+</body>
+
+</html>

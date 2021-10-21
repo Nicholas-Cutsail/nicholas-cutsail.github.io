@@ -1,0 +1,82 @@
+div.book_header {
+  width: 80%;
+  background-color: #00d2ee;
+  padding: 10%;
+  margin-bottom: 5%;
+}
+
+div.bookshelf {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 2vw;
+  row-gap: 2vw;
+}
+
+div.book {
+  background-color: #ebebeb;
+  border: 2px solid #131313;
+  border-radius: 0.5vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.4);
+  padding: 4%;
+}
+
+div.book h2 {
+  height: 10%;
+  padding: 5%;
+  margin: 0;
+  overflow: hidden;
+}
+
+div.book button {
+  border: 1px solid #131313;
+  color: #131313;
+  border-radius: 4px;
+  font-size: 0.9vw;
+}
+
+@media (pointer: fine) {
+  @keyframes button_hover {
+    to {
+      transform: translate(-2px, -2px);
+      box-shadow: 1px 1px 2px black;
+    }
+  }
+  @keyframes button_active {
+    from {
+      transform: translate(-2px, -2px);
+      box-shadow: 1px 1px 2px black;
+    }
+    to {
+      transform: translate(1px, 1px);
+      box-shadow: 0px 0px black;
+    }
+  }
+  div.book button:hover {
+    animation-name: button_hover;
+    animation-duration: 0.03125s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+
+  div.book button:active {
+    animation-name: button_active;
+    animation-duration: 0.03125s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+}
+div.book img {
+  max-width: 80%;
+}
+
+@media screen and (max-width: 800px) {
+  div.bookshelf {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+

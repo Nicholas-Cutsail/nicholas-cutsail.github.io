@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/ico" href="assets/images/icon.ico" />
+
+    <title>Bookshelf | Nick Cutsail</title>
+
+    <link rel="stylesheet" href="assets/css/base.css">
+
+    <script>
+        function toggle_header() {
+            var header_flexbox = document.getElementsByClassName("header_flexbox")[0];
+            var children = header_flexbox.children;
+            for (var i = 1; i < children.length; i++) {
+                children[i].classList.toggle("hidden");
+            }
+            console.log(children);
+        }
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="assets/css/book.css" />
+    <script>
+        function my_copy(txt) {
+            var promise = navigator.clipboard.writeText(txt)
+            promise.then((value) => {
+                console.log("copied")
+                // console.log(value)
+            }, (reason) => {
+                console.log("rejected")
+                console.log(reason)
+            })
+        }
+    </script>
+
+</head>
+
+<body>
+    <header>
+        <ul class="header_flexbox">
+            <li class="header_item site_logo">
+                <a href="./home.html"><img src="assets/images/me.png" alt="Face" />
+                    <p>Nick Cutsail</p>
+                </a>
+                <div class="header_btn_container"><button onclick="toggle_header()">&#x2630;</button></div>
+            </li>
+
+            <li class=" header_item hidden"><a href="/home.html">
+                    <p>Home</p>
+                </a></li>
+
+            <li class=" header_item hidden"><a href="/cv.html">
+                    <p>Resume/CV</p>
+                </a></li>
+
+            <li class=" header_item hidden"><a href="/me.html">
+                    <p>About Me</p>
+                </a></li>
+
+            <li class="current_page header_item hidden"><a href="/book.html">
+                    <p>Bookshelf</p>
+                </a></li>
+
+            <li style="flex-grow:2;flex-shrink:0;"></li>
+        </ul>
+    </header>
+    <main>
+
+        <div class="book_header">
+            <h1>Bookshelf</h1>
+            <p>This is a (non-exhaustive) list of books that I have read, that I plan to read, or that I am currently
+                reading.</p>
+        </div>
+        <div class="bookshelf">
+
+            <div class="book">
+                <h2>The Feynman Lectures on Physics</h2>
+                <img src="assets/images/no image.png" alt="Image Not Available">
+                <p><button
+                        onclick="my_copy('Feynman, R. P., Leighton, R. B., & Sands, M. L. (2011). The Feynman Lectures on Physics (New Millenium Edition, Vol. 1–3). Basic Books')">copy</button><span
+                        style="font-style:italic">Feynman, R. P., Leighton, R. B., & Sands, M. L. (2011). The Feynman
+                        Lectures on Physics (New Millenium Edition, Vol. 1–3). Basic Books</span></p>
+            </div>
+
+            <div class="book">
+                <h2>Introduction to Electrodynamics</h2>
+                <img src="assets/images/no image.png" alt="Image Not Available">
+                <p><button
+                        onclick="my_copy('Griffiths, D. J. (2017). Introduction to Electrodynamics (4th ed.). Cambridge University Press; Cambridge Core. https://doi.org/10.1017/9781108333511')">copy</button><span
+                        style="font-style:italic">Griffiths, D. J. (2017). Introduction to Electrodynamics (4th ed.).
+                        Cambridge University Press; Cambridge Core. https://doi.org/10.1017/9781108333511</span></p>
+            </div>
+
+            <div class="book">
+                <h2>The Theoretical Minimum: What You Need to Know to Start Doing Physics</h2>
+                <img src="assets/images/no image.png" alt="Image Not Available">
+                <p><button
+                        onclick="my_copy('Susskind, L., & Hrabovsky, G. (2014). The Theoretical Minimum: What You Need to Know to Start Doing Physics. Basic Books.')">copy</button><span
+                        style="font-style:italic">Susskind, L., & Hrabovsky, G. (2014). The Theoretical Minimum: What
+                        You Need to Know to Start Doing Physics. Basic Books.</span></p>
+            </div>
+
+            <div class="book">
+                <h2>The Book of Numbers</h2>
+                <img src="assets/images/no image.png" alt="Image Not Available">
+                <p><button
+                        onclick="my_copy('Conway, J. H., & Guy, R. K. (1996). The Book of Numbers. Copernicus.')">copy</button><span
+                        style="font-style:italic">Conway, J. H., & Guy, R. K. (1996). The Book of Numbers.
+                        Copernicus.</span></p>
+            </div>
+
+        </div>
+
+    </main>
+    <footer>
+        <p>&copy; Nicholas Cutsail</p>
+    </footer>
+</body>
+
+</html>
