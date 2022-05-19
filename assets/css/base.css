@@ -132,8 +132,10 @@ li.current_page {
     font-weight: 900;
   }
 
-  body, html {
+  body,
+html {
     font-size: 3vw;
   }
 }
 
+/*# sourceMappingURL=base.css.map */

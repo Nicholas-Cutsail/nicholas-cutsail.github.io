@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#F5F5F5">
+   
+    
+
+    <link rel="icon" type="image/ico" href="/assets/images/icon.ico" />
+
+    <title>
+    
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            Photography
+        
+     | Nick Cutsail</title>
+
+    <link rel="stylesheet" href="/assets/css/base.css">
+
+    <script>
+        function toggle_header(){
+            var header_flexbox = document.getElementsByClassName("header_flexbox")[0];
+            var children = header_flexbox.children;
+            for(var i = 1; i < children.length; i++)
+            {
+                children[i].classList.toggle("hidden");
+            }
+            console.log(children);
+        }
+    </script>
+    
+<link rel="stylesheet" href="/assets/css/photos.css">
+<script>
+    function hide_modal(){
+        document.getElementById("modal").classList.remove("show");
+    }
+    function show_photo_modal(title,path,desc)
+    {
+        document.getElementById("modal-title").innerText = title;
+        document.getElementById("modal-img").src = path;
+        document.getElementById("modal-desc").innerText = desc;
+    
+        document.getElementById("modal").classList.add("show");
+    }
+    function filter_all()
+    {
+        [...document.getElementsByClassName("photo-element")].forEach(
+            element => element.classList.remove("hidden"));
+        [...document.getElementsByClassName("tag-btn")].forEach(
+            element => element.classList.remove("active"));
+        document.getElementById("tag-all-btn").classList.add("active");
+    }
+    function filter_by_tag(tag){
+        var element_shown = false;
+        [...document.getElementsByClassName("photo-element")].forEach(element=>{
+            if(JSON.parse(element.dataset.tags).includes(tag)){
+                element.classList.remove("hidden");
+                element_shown = true;
+            }else{
+                element.classList.add("hidden");
+            }
+        });
+        document.getElementById("tag-all-btn").classList.remove("active");
+        [...document.getElementsByClassName("tag-btn")].forEach(
+            element => {
+                if(tag == element.dataset.tag){
+                    element.classList.add("active")
+                }else{
+                    element.classList.remove("active")
+                }
+            });
+    }
+</script>
+
+</head>
+
+<body>
+    
+<div id="modal">
+    <div class="modal-content-container">
+        <img id="modal-img" src="assets/images/65feb4888b784f56a15d730fa0be4561-720.jpeg" alt="">
+        <div class="modal-footer">
+            <div class="desc">
+                <h2 id="modal-title" >My image</h2>
+                
+                <p id="modal-desc" >desc</p>
+            </div>
+            <div class="close">
+                <img src="/assets/images/close.svg" alt="&#x2715;" onclick="hide_modal()">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<header>
+    
+    
+        <ul class="header_flexbox">
+            <li class="header_item site_logo">
+                
+                <a href="/index.html"><img src="/assets/images/me.png" alt="Face" />
+                    <p>Nick Cutsail</p>
+                </a>
+                <div class="header_btn_container">
+                    <img src="/assets/images/hamburger.svg" alt="&#x2630;" onclick="toggle_header()" width="40" height="40" style="margin-right:20px;">
+                    
+                    
+                    
+                </div>
+            </li>
+            
+            <li class=" header_item hidden"><a href="/index.html">
+                    <p>Home</p>
+                </a></li>
+            
+            <li class=" header_item hidden"><a href="/cv.html">
+                    <p>Resume/CV</p>
+                </a></li>
+            
+            <li class=" header_item hidden"><a href="/me.html">
+                    <p>About Me</p>
+                </a></li>
+            
+            <li class=" header_item hidden"><a href="/book.html">
+                    <p>Bookshelf</p>
+                </a></li>
+            
+            <li class="current_page header_item hidden"><a href="/photos.html">
+                    <p>Photography</p>
+                </a></li>
+            
+            
+            <li style="flex-grow:2;flex-shrink:0;"></li>
+            
+        </ul>
+        
+    
+</header>
+<main>
+    
+    <div class="tags">
+        <span>Tags</span>
+        <button onclick="filter_all()" id="tag-all-btn" class="active">Show All</button>
+        
+        
+            <button onclick='filter_by_tag("landscape")' class="tag-btn" data-tag="landscape">
+                landscape
+            </button>
+        
+            <button onclick='filter_by_tag("landmark")' class="tag-btn" data-tag="landmark">
+                landmark
+            </button>
+        
+    </div>
+
+    <div class="photo-container">
+        
+        <div class="photo-element" data-tags='["landscape"]' data-idx='0'>
+            <div>
+                
+                <img src="assets/images/gallery/fd98eeb04ee54cdb94bc8cf65ebf3c67-1920.jpeg" alt="assets/images/gallery/fd98eeb04ee54cdb94bc8cf65ebf3c67-1920.jpeg"
+            srcset="
+            assets/images/gallery/fd98eeb04ee54cdb94bc8cf65ebf3c67-360.jpeg 360w
+        
+            assets/images/gallery/fd98eeb04ee54cdb94bc8cf65ebf3c67-480.jpeg 480w
+        
+            assets/images/gallery/fd98eeb04ee54cdb94bc8cf65ebf3c67-720.jpeg 720w
+        
+            assets/images/gallery/fd98eeb04ee54cdb94bc8cf65ebf3c67-1180.jpeg 1180w
+        
+            assets/images/gallery/fd98eeb04ee54cdb94bc8cf65ebf3c67-1920.jpeg 1920w
+        "
+            onclick='show_photo_modal("Sunset","assets/images/gallery/fd98eeb04ee54cdb94bc8cf65ebf3c67-1920.jpeg","")'>
+            
+        </div>
+        </div>
+        
+        <div class="photo-element" data-tags='["landmark", "landscape"]' data-idx='1'>
+            <div>
+                
+                <img src="assets/images/gallery/48f22fdec5f64c389e47351ab973ff21-1920.jpeg" alt="assets/images/gallery/48f22fdec5f64c389e47351ab973ff21-1920.jpeg"
+            srcset="
+            assets/images/gallery/48f22fdec5f64c389e47351ab973ff21-360.jpeg 360w
+        
+            assets/images/gallery/48f22fdec5f64c389e47351ab973ff21-480.jpeg 480w
+        
+            assets/images/gallery/48f22fdec5f64c389e47351ab973ff21-720.jpeg 720w
+        
+            assets/images/gallery/48f22fdec5f64c389e47351ab973ff21-1180.jpeg 1180w
+        
+            assets/images/gallery/48f22fdec5f64c389e47351ab973ff21-1920.jpeg 1920w
+        "
+            onclick='show_photo_modal("Golden Gate Bridge","assets/images/gallery/48f22fdec5f64c389e47351ab973ff21-1920.jpeg","")'>
+            
+        </div>
+        </div>
+        
+        <div class="photo-element" data-tags='["landscape", "landmark"]' data-idx='2'>
+            <div>
+                
+                <img src="assets/images/gallery/16040806089f4ee69acc47fbbc59d241-1920.jpeg" alt="assets/images/gallery/16040806089f4ee69acc47fbbc59d241-1920.jpeg"
+            srcset="
+            assets/images/gallery/16040806089f4ee69acc47fbbc59d241-360.jpeg 360w
+        
+            assets/images/gallery/16040806089f4ee69acc47fbbc59d241-480.jpeg 480w
+        
+            assets/images/gallery/16040806089f4ee69acc47fbbc59d241-720.jpeg 720w
+        
+            assets/images/gallery/16040806089f4ee69acc47fbbc59d241-1180.jpeg 1180w
+        
+            assets/images/gallery/16040806089f4ee69acc47fbbc59d241-1920.jpeg 1920w
+        "
+            onclick='show_photo_modal("MB Pier","assets/images/gallery/16040806089f4ee69acc47fbbc59d241-1920.jpeg","")'>
+            
+        </div>
+        </div>
+        
+        <div class="photo-element" data-tags='["landscape", "landmark"]' data-idx='3'>
+            <div>
+                
+                <img src="assets/images/gallery/96bbd3128c034d33b10ef2caa6975f2f-1920.jpeg" alt="assets/images/gallery/96bbd3128c034d33b10ef2caa6975f2f-1920.jpeg"
+            srcset="
+            assets/images/gallery/96bbd3128c034d33b10ef2caa6975f2f-360.jpeg 360w
+        
+            assets/images/gallery/96bbd3128c034d33b10ef2caa6975f2f-480.jpeg 480w
+        
+            assets/images/gallery/96bbd3128c034d33b10ef2caa6975f2f-720.jpeg 720w
+        
+            assets/images/gallery/96bbd3128c034d33b10ef2caa6975f2f-1180.jpeg 1180w
+        
+            assets/images/gallery/96bbd3128c034d33b10ef2caa6975f2f-1920.jpeg 1920w
+        "
+            onclick='show_photo_modal("Hogwarts Castle","assets/images/gallery/96bbd3128c034d33b10ef2caa6975f2f-1920.jpeg","")'>
+            
+        </div>
+        </div>
+        
+        <div class="photo-element" data-tags='["landscape", "landmark"]' data-idx='4'>
+            <div>
+                
+                <img src="assets/images/gallery/4e289dff5a984d1cbbb1c22c7d0f4e9e-1920.jpeg" alt="assets/images/gallery/4e289dff5a984d1cbbb1c22c7d0f4e9e-1920.jpeg"
+            srcset="
+            assets/images/gallery/4e289dff5a984d1cbbb1c22c7d0f4e9e-360.jpeg 360w
+        
+            assets/images/gallery/4e289dff5a984d1cbbb1c22c7d0f4e9e-480.jpeg 480w
+        
+            assets/images/gallery/4e289dff5a984d1cbbb1c22c7d0f4e9e-720.jpeg 720w
+        
+            assets/images/gallery/4e289dff5a984d1cbbb1c22c7d0f4e9e-1180.jpeg 1180w
+        
+            assets/images/gallery/4e289dff5a984d1cbbb1c22c7d0f4e9e-1920.jpeg 1920w
+        "
+            onclick='show_photo_modal("Lone Cyprus Tree","assets/images/gallery/4e289dff5a984d1cbbb1c22c7d0f4e9e-1920.jpeg","")'>
+            
+        </div>
+        </div>
+        
+        <div class="photo-element" data-tags='["landscape"]' data-idx='5'>
+            <div>
+                
+                <img src="assets/images/gallery/5149e2a15bdf426d83f9f3f33364e276-1920.jpeg" alt="assets/images/gallery/5149e2a15bdf426d83f9f3f33364e276-1920.jpeg"
+            srcset="
+            assets/images/gallery/5149e2a15bdf426d83f9f3f33364e276-360.jpeg 360w
+        
+            assets/images/gallery/5149e2a15bdf426d83f9f3f33364e276-480.jpeg 480w
+        
+            assets/images/gallery/5149e2a15bdf426d83f9f3f33364e276-720.jpeg 720w
+        
+            assets/images/gallery/5149e2a15bdf426d83f9f3f33364e276-1180.jpeg 1180w
+        
+            assets/images/gallery/5149e2a15bdf426d83f9f3f33364e276-1920.jpeg 1920w
+        "
+            onclick='show_photo_modal("Palos Verdes","assets/images/gallery/5149e2a15bdf426d83f9f3f33364e276-1920.jpeg","")'>
+            
+        </div>
+        </div>
+        
+        <div class="photo-element" data-tags='["landscape"]' data-idx='6'>
+            <div>
+                
+                <img src="assets/images/gallery/494b2c03dbb9479dbc319b955795ddca-1920.jpeg" alt="assets/images/gallery/494b2c03dbb9479dbc319b955795ddca-1920.jpeg"
+            srcset="
+            assets/images/gallery/494b2c03dbb9479dbc319b955795ddca-360.jpeg 360w
+        
+            assets/images/gallery/494b2c03dbb9479dbc319b955795ddca-480.jpeg 480w
+        
+            assets/images/gallery/494b2c03dbb9479dbc319b955795ddca-720.jpeg 720w
+        
+            assets/images/gallery/494b2c03dbb9479dbc319b955795ddca-1180.jpeg 1180w
+        
+            assets/images/gallery/494b2c03dbb9479dbc319b955795ddca-1920.jpeg 1920w
+        "
+            onclick='show_photo_modal("Point Lobos","assets/images/gallery/494b2c03dbb9479dbc319b955795ddca-1920.jpeg","")'>
+            
+        </div>
+        </div>
+        
+        <div class="photo-element" data-tags='["landscape"]' data-idx='7'>
+            <div>
+                
+                <img src="assets/images/gallery/6776df2d0a4e450ba365aa0b858b8283-1920.jpeg" alt="assets/images/gallery/6776df2d0a4e450ba365aa0b858b8283-1920.jpeg"
+            srcset="
+            assets/images/gallery/6776df2d0a4e450ba365aa0b858b8283-360.jpeg 360w
+        
+            assets/images/gallery/6776df2d0a4e450ba365aa0b858b8283-480.jpeg 480w
+        
+            assets/images/gallery/6776df2d0a4e450ba365aa0b858b8283-720.jpeg 720w
+        
+            assets/images/gallery/6776df2d0a4e450ba365aa0b858b8283-1180.jpeg 1180w
+        
+            assets/images/gallery/6776df2d0a4e450ba365aa0b858b8283-1920.jpeg 1920w
+        "
+            onclick='show_photo_modal("Sunflower","assets/images/gallery/6776df2d0a4e450ba365aa0b858b8283-1920.jpeg","")'>
+            
+        </div>
+        </div>
+        
+    </div>
+    
+</main>
+<footer>
+    
+    
+        <p>&copy; Nicholas Cutsail</p>
+        
+    
+</footer>
+
+</body>
+
+</html>

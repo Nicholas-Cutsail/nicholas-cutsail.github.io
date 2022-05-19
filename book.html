@@ -1,123 +1,506 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="icon" type="image/ico" href="assets/images/icon.ico" />
+    <meta name="theme-color" content="#F5F5F5">
+    
 
-    <title>Bookshelf | Nick Cutsail</title>
+    <link rel="icon" type="image/ico" href="/assets/images/icon.ico" />
 
-    <link rel="stylesheet" href="assets/css/base.css">
+    <title>
+    
+    
+        
+    
+        
+    
+        
+    
+        
+            Bookshelf
+        
+    
+        
+     | Nick Cutsail</title>
+
+    <link rel="stylesheet" href="/assets/css/base.css">
 
     <script>
-        function toggle_header() {
+        function toggle_header(){
             var header_flexbox = document.getElementsByClassName("header_flexbox")[0];
             var children = header_flexbox.children;
-            for (var i = 1; i < children.length; i++) {
+            for(var i = 1; i < children.length; i++)
+            {
                 children[i].classList.toggle("hidden");
             }
             console.log(children);
         }
     </script>
+    
+<link rel="stylesheet" type="text/css" href="assets/css/book.css" />
+<script>
+    var active_tags = [];
 
-    <link rel="stylesheet" type="text/css" href="assets/css/book.css" />
-    <script>
-        function my_copy(txt) {
-            var promise = navigator.clipboard.writeText(txt)
-            promise.then((value) => {
-                console.log("copied")
-                // console.log(value)
-            }, (reason) => {
-                console.log("rejected")
-                console.log(reason)
-            })
+    function copy_citation(element) {
+        var txt = element.parentNode.getElementsByTagName("span")[0].innerText;
+        var promise = navigator.clipboard.writeText(txt)
+        promise.then((value) => {
+            console.log("copied")
+        }, (reason) => {
+            console.log("rejected")
+            console.log(reason)
+        })
+    }
+    function filter_by_text() {
+        var key = document.getElementById("filter_text").value.trim().toLowerCase();
+        var books = document.getElementsByClassName("book");
+        if (key != "") {
+            Array.prototype.forEach.call(books, (book) => {
+                if (!book.getElementsByTagName("h2")[0].innerText.toLowerCase().includes(key)) {
+                    book.classList.add("hidden");
+                }
+            });
         }
-    </script>
+    }
+    function toggle_tag(tag, e) {
+        if (active_tags.includes(tag)) {
+            active_tags = active_tags.filter(item => item != tag)
+        }else{
+            active_tags.push(tag);
+        }
+        update_filter();
+    }
+    function filter_by_tags() {
+        console.log(active_tags);
+
+        if (active_tags.length > 0) {
+            [...document.getElementsByClassName("book")].forEach(element => {
+                var tags = JSON.parse(element.dataset.tags);
+                for (var i = 0; i < active_tags.length; i++) {
+                    if (!tags.includes(active_tags[i])) {
+                        element.classList.add("hidden");
+                    }
+                }
+            });
+        }
+    }
+    function list_tags() {
+        var tags = document.getElementById("tag_list").children;
+        for (var i = tags.length-1; i >= 0; i--) {
+            document.getElementById("tag_list").removeChild(tags[i]);
+        }
+        for (var i = 0; i < active_tags.length; i++) {
+            var p = document.createElement("p");
+            var t = document.createTextNode(active_tags[i]);
+            p.appendChild(t);
+            document.getElementById("tag_list").appendChild(p);
+        }
+    }
+    function update_filter() {
+        show_all();
+
+        filter_by_tags();
+        filter_by_text();
+
+        list_tags();
+
+        var count = 0;
+        var books = document.getElementsByClassName("book");
+        for (var i = 0; i < books.length; i++) {
+            if (!(books[i].classList.contains("hidden"))) {
+                count++;
+            }
+        }
+        if (count == 0) {
+            document.getElementById("no_result").classList.remove("hidden");
+        } else {
+            document.getElementById("no_result").classList.add("hidden");
+        }
+
+        [...document.getElementsByClassName("tag_btn")].forEach(
+            (element) => {
+                if (active_tags.includes(element.dataset.tag)) {
+                    element.classList.add("active");
+                }
+                else {
+                    element.classList.remove("active");
+                }
+            }
+        );
+
+    }
+
+    function reset_filter() {
+        document.getElementById("filter_text").value = "";
+        update_filter();
+    }
+    function reset_tags() {
+        active_tags = [];
+        update_filter();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("filter_text").addEventListener("input", update_filter);
+    });
+
+    function show_all() {
+        [...document.getElementsByClassName("book")].forEach(
+            element => element.classList.remove("hidden"));
+    }
+</script>
+<style>
+    div.book.hidden {
+        display: none;
+    }
+
+    div.bookshelf>p.hidden {
+        display: none;
+    }
+</style>
 
 </head>
 
 <body>
+    
     <header>
+        
         <ul class="header_flexbox">
             <li class="header_item site_logo">
-                <a href="./index.html"><img src="assets/images/me.png" alt="Face" />
+                <a href="/index.html"><img src="/assets/images/me.png" alt="Face" />
                     <p>Nick Cutsail</p>
                 </a>
-                <div class="header_btn_container"><button onclick="toggle_header()">&#x2630;</button></div>
+                <div class="header_btn_container">
+                    <img src="/assets/images/hamburger.svg" alt="&#x2630;" onclick="toggle_header()" width="40" height="40" style="margin-right:20px;">
+                    
+                    
+                </div>
             </li>
-
+            
             <li class=" header_item hidden"><a href="/index.html">
                     <p>Home</p>
                 </a></li>
-
+            
             <li class=" header_item hidden"><a href="/cv.html">
                     <p>Resume/CV</p>
                 </a></li>
-
+            
             <li class=" header_item hidden"><a href="/me.html">
                     <p>About Me</p>
                 </a></li>
-
+            
             <li class="current_page header_item hidden"><a href="/book.html">
                     <p>Bookshelf</p>
                 </a></li>
-
+            
+            <li class=" header_item hidden"><a href="/photos.html">
+                    <p>Photography</p>
+                </a></li>
+            
+            
             <li style="flex-grow:2;flex-shrink:0;"></li>
+            
         </ul>
+        
     </header>
     <main>
+        
+<div class="book_header">
+    <h1>Bookshelf</h1>
+    <p>This is a (non-exhaustive) list of books that I have read, that I plan to read, or that I am currently reading.
+    </p>
+</div>
 
-        <div class="book_header">
-            <h1>Bookshelf</h1>
-            <p>This is a (non-exhaustive) list of books that I have read, that I plan to read, or that I am currently
-                reading.</p>
+<div class="filter">
+    <p>Search</p>
+    <input type="text" id="filter_text">
+    <img src="/assets/images/close.svg" alt="&#x2715;" onclick="reset_filter()">
+    <button onclick="reset_tags()">Clear Tags</button>
+    <div id="tag_list"></div>
+</div>
+
+<div class="bookshelf">
+    
+    <div class="book" data-tags='["Berkeley Undergrad", "Physics"]'
+        data-idx='0'>
+        
+        <h2>An introduction to mechanics</h2>
+        
+        <img src="assets/images/bookshelf/6529b7796a2149c48645eadfef236176-1920.jpeg" alt="assets/images/bookshelf/6529b7796a2149c48645eadfef236176-1920.jpeg" srcset="
+        assets/images/bookshelf/6529b7796a2149c48645eadfef236176-360.jpeg 360w
+    
+        assets/images/bookshelf/6529b7796a2149c48645eadfef236176-480.jpeg 480w
+    
+        assets/images/bookshelf/6529b7796a2149c48645eadfef236176-720.jpeg 720w
+    
+        assets/images/bookshelf/6529b7796a2149c48645eadfef236176-1180.jpeg 1180w
+    
+        assets/images/bookshelf/6529b7796a2149c48645eadfef236176-1920.jpeg 1920w
+    ">
+        
+        <p class="citation"><button onclick="copy_citation(this)">copy</button><span style="font-style:italic">Kleppner, D., &amp; Kolenkow, R. J. (2014). An introduction to mechanics (Second edition). Cambridge University Press.
+</span></p>
+        <div class="tags_container">
+            
+            <button data-tag="Berkeley Undergrad" class="tag_btn" onclick='toggle_tag("Berkeley Undergrad",this)'>Berkeley Undergrad</button>
+            
+            <button data-tag="Physics" class="tag_btn" onclick='toggle_tag("Physics",this)'>Physics</button>
+            
         </div>
-        <div class="bookshelf">
-
-            <div class="book">
-                <h2>The Feynman Lectures on Physics</h2>
-                <img src="assets/images/no image.png" alt="Image Not Available">
-                <p><button
-                        onclick="my_copy('Feynman, R. P., Leighton, R. B., & Sands, M. L. (2011). The Feynman Lectures on Physics (New Millenium Edition, Vol. 1–3). Basic Books')">copy</button><span
-                        style="font-style:italic">Feynman, R. P., Leighton, R. B., & Sands, M. L. (2011). The Feynman
-                        Lectures on Physics (New Millenium Edition, Vol. 1–3). Basic Books</span></p>
-            </div>
-
-            <div class="book">
-                <h2>Introduction to Electrodynamics</h2>
-                <img src="assets/images/no image.png" alt="Image Not Available">
-                <p><button
-                        onclick="my_copy('Griffiths, D. J. (2017). Introduction to Electrodynamics (4th ed.). Cambridge University Press; Cambridge Core. https://doi.org/10.1017/9781108333511')">copy</button><span
-                        style="font-style:italic">Griffiths, D. J. (2017). Introduction to Electrodynamics (4th ed.).
-                        Cambridge University Press; Cambridge Core. https://doi.org/10.1017/9781108333511</span></p>
-            </div>
-
-            <div class="book">
-                <h2>The Theoretical Minimum: What You Need to Know to Start Doing Physics</h2>
-                <img src="assets/images/no image.png" alt="Image Not Available">
-                <p><button
-                        onclick="my_copy('Susskind, L., & Hrabovsky, G. (2014). The Theoretical Minimum: What You Need to Know to Start Doing Physics. Basic Books.')">copy</button><span
-                        style="font-style:italic">Susskind, L., & Hrabovsky, G. (2014). The Theoretical Minimum: What
-                        You Need to Know to Start Doing Physics. Basic Books.</span></p>
-            </div>
-
-            <div class="book">
-                <h2>The Book of Numbers</h2>
-                <img src="assets/images/no image.png" alt="Image Not Available">
-                <p><button
-                        onclick="my_copy('Conway, J. H., & Guy, R. K. (1996). The Book of Numbers. Copernicus.')">copy</button><span
-                        style="font-style:italic">Conway, J. H., & Guy, R. K. (1996). The Book of Numbers.
-                        Copernicus.</span></p>
-            </div>
-
+    </div>
+    
+    <div class="book" data-tags='["Berkeley Undergrad", "Physics"]'
+        data-idx='1'>
+        
+        <h2>Electricity and magnetism</h2>
+        
+        <img src="assets/images/bookshelf/e237eccfcfea4dcd8a484bb843c770ae-1920.jpeg" alt="assets/images/bookshelf/e237eccfcfea4dcd8a484bb843c770ae-1920.jpeg" srcset="
+        assets/images/bookshelf/e237eccfcfea4dcd8a484bb843c770ae-360.jpeg 360w
+    
+        assets/images/bookshelf/e237eccfcfea4dcd8a484bb843c770ae-480.jpeg 480w
+    
+        assets/images/bookshelf/e237eccfcfea4dcd8a484bb843c770ae-720.jpeg 720w
+    
+        assets/images/bookshelf/e237eccfcfea4dcd8a484bb843c770ae-1180.jpeg 1180w
+    
+        assets/images/bookshelf/e237eccfcfea4dcd8a484bb843c770ae-1920.jpeg 1920w
+    ">
+        
+        <p class="citation"><button onclick="copy_citation(this)">copy</button><span style="font-style:italic">Purcell, E. M. (2013). Electricity and magnetism (Third edition.). Cambridge University Press.</span></p>
+        <div class="tags_container">
+            
+            <button data-tag="Berkeley Undergrad" class="tag_btn" onclick='toggle_tag("Berkeley Undergrad",this)'>Berkeley Undergrad</button>
+            
+            <button data-tag="Physics" class="tag_btn" onclick='toggle_tag("Physics",this)'>Physics</button>
+            
         </div>
+    </div>
+    
+    <div class="book" data-tags='["Berkeley Undergrad", "Math"]'
+        data-idx='2'>
+        
+        <h2>Multivariable Calculus: Math 53 at UC Berkeley</h2>
+        
+        <img src="assets/images/bookshelf/a775166d1ab74c07b9031f4b5249f461-1920.jpeg" alt="assets/images/bookshelf/a775166d1ab74c07b9031f4b5249f461-1920.jpeg" srcset="
+        assets/images/bookshelf/a775166d1ab74c07b9031f4b5249f461-360.jpeg 360w
+    
+        assets/images/bookshelf/a775166d1ab74c07b9031f4b5249f461-480.jpeg 480w
+    
+        assets/images/bookshelf/a775166d1ab74c07b9031f4b5249f461-720.jpeg 720w
+    
+        assets/images/bookshelf/a775166d1ab74c07b9031f4b5249f461-1180.jpeg 1180w
+    
+        assets/images/bookshelf/a775166d1ab74c07b9031f4b5249f461-1920.jpeg 1920w
+    ">
+        
+        <p class="citation"><button onclick="copy_citation(this)">copy</button><span style="font-style:italic">Stewart, J. (2003). Multivariable Calculus: Math 53 at UC Berkeley. brooks/cole.</span></p>
+        <div class="tags_container">
+            
+            <button data-tag="Berkeley Undergrad" class="tag_btn" onclick='toggle_tag("Berkeley Undergrad",this)'>Berkeley Undergrad</button>
+            
+            <button data-tag="Math" class="tag_btn" onclick='toggle_tag("Math",this)'>Math</button>
+            
+        </div>
+    </div>
+    
+    <div class="book" data-tags='["Berkeley Undergrad", "Physics"]'
+        data-idx='3'>
+        
+        <h2>Principles of physical optics</h2>
+        
+        <img src="assets/images/bookshelf/d41cf222a4fa4d7aa1dd4af400546984-1920.jpeg" alt="assets/images/bookshelf/d41cf222a4fa4d7aa1dd4af400546984-1920.jpeg" srcset="
+        assets/images/bookshelf/d41cf222a4fa4d7aa1dd4af400546984-360.jpeg 360w
+    
+        assets/images/bookshelf/d41cf222a4fa4d7aa1dd4af400546984-480.jpeg 480w
+    
+        assets/images/bookshelf/d41cf222a4fa4d7aa1dd4af400546984-720.jpeg 720w
+    
+        assets/images/bookshelf/d41cf222a4fa4d7aa1dd4af400546984-1180.jpeg 1180w
+    
+        assets/images/bookshelf/d41cf222a4fa4d7aa1dd4af400546984-1920.jpeg 1920w
+    ">
+        
+        <p class="citation"><button onclick="copy_citation(this)">copy</button><span style="font-style:italic">Bennett, C. A. (Charles A. (2008). Principles of physical optics. Wiley.
+</span></p>
+        <div class="tags_container">
+            
+            <button data-tag="Berkeley Undergrad" class="tag_btn" onclick='toggle_tag("Berkeley Undergrad",this)'>Berkeley Undergrad</button>
+            
+            <button data-tag="Physics" class="tag_btn" onclick='toggle_tag("Physics",this)'>Physics</button>
+            
+        </div>
+    </div>
+    
+    <div class="book" data-tags='["Berkeley Undergrad", "Math"]'
+        data-idx='4'>
+        
+        <h2>Mathematical methods in the physical sciences</h2>
+        
+        <img src="assets/images/bookshelf/4879f1b6ab6f4f56b59cb10041902e15-1920.jpeg" alt="assets/images/bookshelf/4879f1b6ab6f4f56b59cb10041902e15-1920.jpeg" srcset="
+        assets/images/bookshelf/4879f1b6ab6f4f56b59cb10041902e15-360.jpeg 360w
+    
+        assets/images/bookshelf/4879f1b6ab6f4f56b59cb10041902e15-480.jpeg 480w
+    
+        assets/images/bookshelf/4879f1b6ab6f4f56b59cb10041902e15-720.jpeg 720w
+    
+        assets/images/bookshelf/4879f1b6ab6f4f56b59cb10041902e15-1180.jpeg 1180w
+    
+        assets/images/bookshelf/4879f1b6ab6f4f56b59cb10041902e15-1920.jpeg 1920w
+    ">
+        
+        <p class="citation"><button onclick="copy_citation(this)">copy</button><span style="font-style:italic">Boas, M. L. (2006). Mathematical methods in the physical sciences (3rd ed). Wiley.
+</span></p>
+        <div class="tags_container">
+            
+            <button data-tag="Berkeley Undergrad" class="tag_btn" onclick='toggle_tag("Berkeley Undergrad",this)'>Berkeley Undergrad</button>
+            
+            <button data-tag="Math" class="tag_btn" onclick='toggle_tag("Math",this)'>Math</button>
+            
+        </div>
+    </div>
+    
+    <div class="book" data-tags='["Physics"]'
+        data-idx='5'>
+        
+        <h2>Introduction to Electrodynamics</h2>
+        
+        <img src="assets/images/bookshelf/3fc6ed36a07241169623c57bea3be1d5-1920.jpeg" alt="assets/images/bookshelf/3fc6ed36a07241169623c57bea3be1d5-1920.jpeg" srcset="
+        assets/images/bookshelf/3fc6ed36a07241169623c57bea3be1d5-360.jpeg 360w
+    
+        assets/images/bookshelf/3fc6ed36a07241169623c57bea3be1d5-480.jpeg 480w
+    
+        assets/images/bookshelf/3fc6ed36a07241169623c57bea3be1d5-720.jpeg 720w
+    
+        assets/images/bookshelf/3fc6ed36a07241169623c57bea3be1d5-1180.jpeg 1180w
+    
+        assets/images/bookshelf/3fc6ed36a07241169623c57bea3be1d5-1920.jpeg 1920w
+    ">
+        
+        <p class="citation"><button onclick="copy_citation(this)">copy</button><span style="font-style:italic">Griffiths, D. J. (2017). Introduction to Electrodynamics. Cambridge University Press. https://doi.org/10.1017/9781108333511</span></p>
+        <div class="tags_container">
+            
+            <button data-tag="Physics" class="tag_btn" onclick='toggle_tag("Physics",this)'>Physics</button>
+            
+        </div>
+    </div>
+    
+    <div class="book" data-tags='["Physics"]'
+        data-idx='6'>
+        
+        <h2>The Feynman lectures on physics</h2>
+        
+        <img src="assets/images/bookshelf/d050355b224f4bc2946c92e730d5bdd4-1920.jpeg" alt="assets/images/bookshelf/d050355b224f4bc2946c92e730d5bdd4-1920.jpeg" srcset="
+        assets/images/bookshelf/d050355b224f4bc2946c92e730d5bdd4-360.jpeg 360w
+    
+        assets/images/bookshelf/d050355b224f4bc2946c92e730d5bdd4-480.jpeg 480w
+    
+        assets/images/bookshelf/d050355b224f4bc2946c92e730d5bdd4-720.jpeg 720w
+    
+        assets/images/bookshelf/d050355b224f4bc2946c92e730d5bdd4-1180.jpeg 1180w
+    
+        assets/images/bookshelf/d050355b224f4bc2946c92e730d5bdd4-1920.jpeg 1920w
+    ">
+        
+        <p class="citation"><button onclick="copy_citation(this)">copy</button><span style="font-style:italic">Feynman, R. P. (Richard P., Leighton, R. B., &amp; Sands, M. L. (Matthew L. (n.d.). The Feynman lectures on physics.</span></p>
+        <div class="tags_container">
+            
+            <button data-tag="Physics" class="tag_btn" onclick='toggle_tag("Physics",this)'>Physics</button>
+            
+        </div>
+    </div>
+    
+    <div class="book" data-tags='["Berkeley Undergrad", "Physics"]'
+        data-idx='7'>
+        
+        <h2>Vibrations and waves</h2>
+        
+        <img src="assets/images/bookshelf/40872003aa6d4768ad91ea82ec759ece-1920.jpeg" alt="assets/images/bookshelf/40872003aa6d4768ad91ea82ec759ece-1920.jpeg" srcset="
+        assets/images/bookshelf/40872003aa6d4768ad91ea82ec759ece-360.jpeg 360w
+    
+        assets/images/bookshelf/40872003aa6d4768ad91ea82ec759ece-480.jpeg 480w
+    
+        assets/images/bookshelf/40872003aa6d4768ad91ea82ec759ece-720.jpeg 720w
+    
+        assets/images/bookshelf/40872003aa6d4768ad91ea82ec759ece-1180.jpeg 1180w
+    
+        assets/images/bookshelf/40872003aa6d4768ad91ea82ec759ece-1920.jpeg 1920w
+    ">
+        
+        <p class="citation"><button onclick="copy_citation(this)">copy</button><span style="font-style:italic">French, A. P. (Anthony P. (2003). Vibrations and waves. 316.</span></p>
+        <div class="tags_container">
+            
+            <button data-tag="Berkeley Undergrad" class="tag_btn" onclick='toggle_tag("Berkeley Undergrad",this)'>Berkeley Undergrad</button>
+            
+            <button data-tag="Physics" class="tag_btn" onclick='toggle_tag("Physics",this)'>Physics</button>
+            
+        </div>
+    </div>
+    
+    <div class="book" data-tags='["Physics"]'
+        data-idx='8'>
+        
+        <h2>Susskind, L., & Hrabovsky, G. (n.dThe theoretical minimum : what you need to know to start doing physics</h2>
+        
+        <img src="assets/images/bookshelf/55d0fd63028c4a71a72e19e57704531f-1920.jpeg" alt="assets/images/bookshelf/55d0fd63028c4a71a72e19e57704531f-1920.jpeg" srcset="
+        assets/images/bookshelf/55d0fd63028c4a71a72e19e57704531f-360.jpeg 360w
+    
+        assets/images/bookshelf/55d0fd63028c4a71a72e19e57704531f-480.jpeg 480w
+    
+        assets/images/bookshelf/55d0fd63028c4a71a72e19e57704531f-720.jpeg 720w
+    
+        assets/images/bookshelf/55d0fd63028c4a71a72e19e57704531f-1180.jpeg 1180w
+    
+        assets/images/bookshelf/55d0fd63028c4a71a72e19e57704531f-1920.jpeg 1920w
+    ">
+        
+        <p class="citation"><button onclick="copy_citation(this)">copy</button><span style="font-style:italic">Susskind, L., &amp; Hrabovsky, G. (n.d.). The theoretical minimum : what you need to know to start doing physics. 238.</span></p>
+        <div class="tags_container">
+            
+            <button data-tag="Physics" class="tag_btn" onclick='toggle_tag("Physics",this)'>Physics</button>
+            
+        </div>
+    </div>
+    
+    <div class="book" data-tags='["Math"]'
+        data-idx='9'>
+        
+        <h2>The Book of Numbers</h2>
+        
+        <img src="assets/images/bookshelf/dd285719b2344efbb47423361804a6b9-1920.jpeg" alt="assets/images/bookshelf/dd285719b2344efbb47423361804a6b9-1920.jpeg" srcset="
+        assets/images/bookshelf/dd285719b2344efbb47423361804a6b9-360.jpeg 360w
+    
+        assets/images/bookshelf/dd285719b2344efbb47423361804a6b9-480.jpeg 480w
+    
+        assets/images/bookshelf/dd285719b2344efbb47423361804a6b9-720.jpeg 720w
+    
+        assets/images/bookshelf/dd285719b2344efbb47423361804a6b9-1180.jpeg 1180w
+    
+        assets/images/bookshelf/dd285719b2344efbb47423361804a6b9-1920.jpeg 1920w
+    ">
+        
+        <p class="citation"><button onclick="copy_citation(this)">copy</button><span style="font-style:italic">Conway, J. H., &amp; Guy, R. K. (1996). The Book of Numbers. https://doi.org/10.1007/978-1-4612-4072-3</span></p>
+        <div class="tags_container">
+            
+            <button data-tag="Math" class="tag_btn" onclick='toggle_tag("Math",this)'>Math</button>
+            
+        </div>
+    </div>
+    
+    <p id="no_result" class="hidden">No Results...</p>
+</div>
 
     </main>
     <footer>
+        
         <p>&copy; Nicholas Cutsail</p>
+        
     </footer>
+    
 </body>
 
 </html>

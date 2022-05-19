@@ -2,7 +2,6 @@ div.book_header {
   width: 80%;
   background-color: #00d2ee;
   padding: 10%;
-  margin-bottom: 5%;
 }
 
 div.bookshelf {
@@ -13,7 +12,7 @@ div.bookshelf {
 }
 
 div.book {
-  background-color: #ebebeb;
+  background-color: #f7f7f7;
   border: 2px solid #131313;
   border-radius: 0.5vw;
   display: flex;
@@ -23,14 +22,34 @@ div.book {
   padding: 4%;
 }
 
+div.book div.tags_container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-wrap: wrap;
+}
+div.book div.tags_container button {
+  margin: 0 0.5vw 0 0.5vw;
+  padding: 0.25vw 1vw 0.25vw 1vw;
+  background-color: white;
+  color: #1682c0;
+  border: 1px solid #1682c0;
+  border-radius: 1vw;
+}
+div.book div.tags_container button.active {
+  color: white;
+  background-color: #1682c0;
+  border: 1px solid white;
+}
+
 div.book h2 {
   height: 10%;
   padding: 5%;
   margin: 0;
-  overflow: hidden;
+  overflow-y: scroll;
 }
 
-div.book button {
+div.book p.citation button {
   border: 1px solid #131313;
   color: #131313;
   border-radius: 4px;
@@ -40,7 +59,7 @@ div.book button {
 @media (pointer: fine) {
   @keyframes button_hover {
     to {
-      transform: translate(-2px, -2px);
+      transform: translate(-1px, -1px);
       box-shadow: 1px 1px 2px black;
     }
   }
@@ -54,7 +73,7 @@ div.book button {
       box-shadow: 0px 0px black;
     }
   }
-  div.book button:hover {
+  div.filter button:hover, p.citation button:hover {
     animation-name: button_hover;
     animation-duration: 0.03125s;
     animation-timing-function: ease-in-out;
@@ -62,16 +81,34 @@ div.book button {
     animation-fill-mode: forwards;
   }
 
-  div.book button:active {
+  div.filter button:active, p.citation button:active {
     animation-name: button_active;
     animation-duration: 0.03125s;
     animation-timing-function: ease-in-out;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
   }
+
+  div.book div.tags_container button:hover {
+    color: white;
+    background-color: #1682c0;
+    border: 1px solid white;
+  }
+
+  div.book div.tags_container button:active {
+    color: white;
+    background-color: #1682c0;
+    border: 1px solid white;
+    filter: brightness(95%);
+  }
 }
 div.book img {
   max-width: 80%;
+}
+
+div#tag_list {
+  display: flex;
+  flex-direction: row;
 }
 
 @media screen and (max-width: 800px) {
@@ -79,4 +116,31 @@ div.book img {
     grid-template-columns: repeat(1, 1fr);
   }
 }
+div.filter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #b1aaeb;
+  background-color: #2a1ca7;
+  margin: 2% 0 2% 0;
+  padding: 1%;
+}
+div.filter p {
+  padding: 1%;
+  margin: 0 1% 0 0;
+}
+div.filter input {
+  background-color: #b1aaeb;
+  height: 100%;
+}
+div.filter img {
+  height: 20px;
+}
+div.filter button {
+  background-color: #b1aaeb;
+  color: black;
+  border: 1px solid black;
+  border-radius: 0.25vw;
+}
 
+/*# sourceMappingURL=book.css.map */
